@@ -4,19 +4,23 @@
 4. На сервере создаем отдельного системного пользователя - appuser. sudo chown -R appuser:appuser /opt/test-app - appuser владелец всех файлов в каталоге. 
 5. Создаем службу веб-приложения. файл: /etc/systemd/system/devapp.service. Сам файл представлен в этом же репозитории (devapp.service). 
 Дальнейшие команды: 
-`` ` `sudo systemctl daemon-reload
+```bash
+sudo systemctl daemon-reload
 sudo systemctl enable devapp
-sudo systemctl start devapp`` ` `
+sudo systemctl start devapp
+```
 6. Dockerfile. Сборка образа: docker build -t test-app:1.0 .
-Запуск контейнера: ``docker run -d \
+Запуск контейнера: 
+```bash 
+  docker run -d \
   --name test-app \
   --restart unless-stopped \
   -p 8000:8000 \
-  test-app:1.0``
+  test-app:1.0 ```
 7. ....
 8. Создадим еще одну виртуальную машину с двумя сетевыми интерфейсами. Первый NAT. Второй внутренняя сеть (назовем ее internal-net). У первой машины один сетевой адаптер - внутренняя сеть: internal-net.
 Настройка сети на первой виртуальной машине ( с двумя сетевыми адаптерами). enp0s3 - внешний интерфейс, enp0s8 - внутренний интерфейс. Настройка через netplan. 
-''
+```bash
 network:
   version: 2
   ethernets:
@@ -25,4 +29,10 @@ network:
     enp0s8:
       dhcp4: false
       addresses:
-        - 192.168.100.1/24 ''
+        - 192.168.100.1/24```
+9. Настройка iptables
+``` bash
+sudo iptables -t nat -A POSTROUTING \
+  -s 192.168.100.0/24 \
+  -o ens33 \
+  -j MASQUERADE ```
