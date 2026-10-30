@@ -3,4 +3,8 @@
 2. Далее необходимо развернуть приложение на Ubuntu Server 22.04 через systemd. На сервер необходимо установить все необходимые системные пакеты: python, pip и т.д. (python3 python3-venv python3-pip curl iputils-ping)
 3. Создаем структуру проекта (mkdir ~/devtest). Создаем виртуальное окружение (python3 python3-venv python3-pip curl iputils-ping) и активируем его. файл main.py также переносим в эту директорию.
 4. На сервере создаем отдельного системного пользователя - appuser. sudo chown -R appuser:appuser /opt/test-app - appuser владелец всех файлов в каталоге. 
-5. Создаем службу веб-приложения. файл: /etc/systemd/system/devapp.service. 
+5. Создаем службу веб-приложения. файл: /etc/systemd/system/devapp.service. Сам файл представлен в этом же репозитории (devapp.service). 
+Дальнейшие команды: sudo systemctl daemon-reload
+sudo systemctl enable devapp
+sudo systemctl start devapp
+6. Dockerfile 
