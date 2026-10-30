@@ -7,4 +7,9 @@
 `` ` `sudo systemctl daemon-reload
 sudo systemctl enable devapp
 sudo systemctl start devapp`` ` `
-6. Dockerfile 
+6. Dockerfile. Сборка образа: docker build -t test-app:1.0 .
+Запуск контейнера: ``docker run -d \
+  --name test-app \
+  --restart unless-stopped \
+  -p 8000:8000 \
+  test-app:1.0``
